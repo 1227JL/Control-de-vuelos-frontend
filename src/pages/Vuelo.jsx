@@ -14,11 +14,11 @@ import useVuelo from "../hooks/useVuelo";
 import { useState } from "react";
 import formatearSoloFecha from "../../helpers/FormatearSoloFecha";
 import { formatearSoloHoraMinutos } from "../../helpers/formatearSoloHoraMinutos";
+import ModalAsiento from "../components/ModalAsiento";
 
 export default function Vuelo() {
-  const { isLoading, alerta, vuelo, handleModalVuelo, handleCancelarVuelo } =
+  const { isLoading, alerta, vuelo, handleModalVuelo, handleCancelarVuelo, modalAsiento, setModalAsiento, pasajero, setPasajero } =
     useVuelo();
-  const [pasajero, setPasajero] = useState({});
 
   const diferenciaFormateada = obtenerDiferenciaFechas(
     vuelo?.infoVuelo?.horaSalida,
@@ -31,6 +31,7 @@ export default function Vuelo() {
     const pasajero = vuelo?.infoVuelo?.pasajeros?.filter(
       (pasajero) => pasajero.asiento === numRef
     );
+
     setPasajero(pasajero[0] || numRef);
   };
 
@@ -214,6 +215,7 @@ export default function Vuelo() {
           <div className="pb-10">{renderAirplaneSeatRows()}</div>
         </section>
       </div>
+      <ModalAsiento pasajero={pasajero[0]} handleModalAsiento={handleModalAsiento}/>
     </div>
   );
 }
